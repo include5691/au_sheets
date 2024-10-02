@@ -11,6 +11,7 @@ setup(
         'cachetools',
         'python-dotenv',
         'oauth2client',
-        'pandas'
+        'pandas',
+        'gspread'
     ],
 )
