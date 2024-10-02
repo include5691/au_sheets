@@ -3,7 +3,7 @@ from gspread import Worksheet
 from gspread.exceptions import WorksheetNotFound
 from ._spreadsheet import get_spreadsheet
 
-def get_worksheet(table_name: str, sheet_name: str, create_sheet: bool) -> Worksheet | None:
+def get_worksheet(table_name: str, sheet_name: str, create_sheet: bool = False) -> Worksheet | None:
     """Get Worksheet by table name and sheet name"""
     spreadsheet = get_spreadsheet(table_name)
     if not spreadsheet:
