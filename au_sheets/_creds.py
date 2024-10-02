@@ -4,10 +4,10 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 iter = 0
 
-def get_creds(iterate: bool = False) -> ServiceAccountCredentials | None:
+def get_creds() -> ServiceAccountCredentials | None:
     """
     Get the credentials from the JSON file
-    If there are more than one file, the "iteration" parameter regulates the behavior
+    If there are more than one file in the credentials folder, iterate through them
     """
     creds_path = Path(__file__).parent.parent / ".credentials"
     if not creds_path.exists():
@@ -21,9 +21,8 @@ def get_creds(iterate: bool = False) -> ServiceAccountCredentials | None:
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive",
     ]
-    if len(creds_files) == 1 or not iterate:
+    if len(creds_files) == 1:
         return ServiceAccountCredentials.from_json_keyfile_name(filename=creds_files[0], scopes=scopes)
-    if iterate:
-        global iter
-        iter = (iter + 1) % len(creds_files)
-        return ServiceAccountCredentials.from_json_keyfile_name(filename=creds_files[iter], scopes=scopes)
+    global iter
+    iter = (iter + 1) % len(creds_files)
+    return ServiceAccountCredentials.from_json_keyfile_name(filename=creds_files[iter], scopes=scopes)
