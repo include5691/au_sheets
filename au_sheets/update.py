@@ -14,6 +14,9 @@ def update_sheet(df: DataFrame, table_name : str, sheet_name: str, create_sheet:
     values = df_clean.to_numpy().tolist()
     data = [headers] + values
     worksheet = get_worksheet(table_name, sheet_name, create_sheet)
+    if not worksheet:
+        logging.error(f"Error getting {sheet_name} with create sheet flag {create_sheet}")
+        return
     try:
         worksheet.clear()
         worksheet.update(
