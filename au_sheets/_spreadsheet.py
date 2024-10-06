@@ -5,7 +5,11 @@ from ._creds import get_creds
 
 def get_spreadsheet(table_name: str) -> Spreadsheet | None:
     """Get Spreadsheet by table name"""
-    client = Client(auth=get_creds())
+    creds = get_creds()
+    if not creds:
+        logging.error("Credentials not found")
+        return None
+    client = Client(auth=creds)
     try:
         spreadsheet = client.open(table_name)
         return spreadsheet

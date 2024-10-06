@@ -1,3 +1,4 @@
+import os
 import logging
 from pathlib import Path
 from oauth2client.service_account import ServiceAccountCredentials
@@ -9,7 +10,11 @@ def get_creds() -> ServiceAccountCredentials | None:
     Get the credentials from the JSON file
     If there are more than one file in the credentials folder, iterate through them
     """
-    creds_path = Path(__file__).parent.parent / ".credentials"
+    path_var = os.getenv("GOOGLE_SHEETS_CREDENTIALS_PATH")
+    if path_var:
+        creds_path = Path(path_var)
+    else:
+        creds_path = Path(__file__).parent.parent / ".credentials"
     if not creds_path.exists():
         logging.error("Credentials folder not found")
         return None
