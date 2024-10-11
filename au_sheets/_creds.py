@@ -14,7 +14,7 @@ def get_creds() -> ServiceAccountCredentials | None:
     if path_var:
         creds_path = Path(path_var)
     else:
-        creds_path = Path(__file__).parent.parent / ".credentials"
+        creds_path = Path(__file__).parent / ".credentials"
     if not creds_path.exists():
         logging.error("Credentials folder not found")
         return None
