@@ -1,6 +1,6 @@
 import logging
 from gspread import Worksheet
-from gspread.exceptions import WorksheetNotFound
+from gspread.exceptions import WorksheetNotFound, GSpreadException
 from ._spreadsheet import get_spreadsheet
 
 def get_worksheet(table_name: str, sheet_name: str, create_sheet: bool = False) -> Worksheet | None:
@@ -22,6 +22,9 @@ def get_worksheet(table_name: str, sheet_name: str, create_sheet: bool = False) 
             return None
     except ConnectionError as e:
         logging.error("ConnectionError: " + str(e))
+        return None
+    except GSpreadException as e:
+        logging.error("GSpreadException: " + str(e))
         return None
     except Exception as e:
         logging.error("Error: " + str(e))
