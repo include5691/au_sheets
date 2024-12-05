@@ -4,12 +4,18 @@ from pandas import DataFrame
 from gspread.exceptions import APIError
 from ._worksheet import get_worksheet
 
+def _get_columns_addr(n: int) -> str:
+    """Return column address by number"""
+    if n < 26:
+        return chr(65 + n)
+    return _get_columns_addr(n // 26 - 1) + chr(65 + n % 26)
+
 def update_sheet(df: DataFrame, table_name : str, sheet_name: str, create_sheet: bool = False) -> None:
     """Update Google Sheet with DataFrame values"""
     if not isinstance(df, DataFrame) or df.empty:
         logging.error("Invalid DataFrame")
         return
-    df.fillna('')
+    df.infer_objects(copy=False)
     headers = df.columns.tolist()
     values = df.to_numpy().tolist()
     data = [headers] + values
@@ -20,7 +26,7 @@ def update_sheet(df: DataFrame, table_name : str, sheet_name: str, create_sheet:
     try:
         worksheet.clear()
         worksheet.update(
-            "A1:" + chr(65 + len(headers) - 1) + str(len(data)),
+            "A1:" + _get_columns_addr(len(headers) - 1) + str(len(data)),
             data,
             value_input_option="USER_ENTERED",
         )
