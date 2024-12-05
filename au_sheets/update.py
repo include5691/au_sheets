@@ -9,9 +9,9 @@ def update_sheet(df: DataFrame, table_name : str, sheet_name: str, create_sheet:
     if not isinstance(df, DataFrame) or df.empty:
         logging.error("Invalid DataFrame")
         return
-    df_clean = df.replace({np.nan: ''})
-    headers = df_clean.columns.tolist()
-    values = df_clean.to_numpy().tolist()
+    df.fillna('')
+    headers = df.columns.tolist()
+    values = df.to_numpy().tolist()
     data = [headers] + values
     worksheet = get_worksheet(table_name, sheet_name, create_sheet)
     if not worksheet:
@@ -25,5 +25,8 @@ def update_sheet(df: DataFrame, table_name : str, sheet_name: str, create_sheet:
             value_input_option="USER_ENTERED",
         )
     except APIError as e:
-        logging.error(f"Error updating {sheet_name}: {e}")
+        logging.error(f"APIError: Error updating {sheet_name}: {e}")
+        return
+    except Exception as e:
+        logging.error(f"Exception: Error updating {sheet_name}: {e}")
         return
