@@ -12,7 +12,7 @@ def _get_columns_addr(n: int) -> str:
 
 def update_sheet(df: DataFrame, table_name : str, sheet_name: str, create_sheet: bool = False) -> None:
     """Update Google Sheet with DataFrame values"""
-    if not isinstance(df, DataFrame) or df.empty:
+    if not isinstance(df, DataFrame):
         logging.error("Invalid DataFrame")
         return
     df.infer_objects(copy=False)
