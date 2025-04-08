@@ -1,4 +1,5 @@
 import logging
+import numpy as np
 from pandas import DataFrame
 from gspread.exceptions import APIError
 from ._worksheet import get_worksheet
@@ -14,7 +15,7 @@ def update_sheet(df: DataFrame, table_name: str, sheet_name: str, create_sheet: 
     if not isinstance(df, DataFrame):
         logging.error("Invalid DataFrame")
         return
-    df.infer_objects(copy=False)
+    df = df.replace({np.nan: ''})
     headers = df.columns.tolist()
     values = df.to_numpy().tolist()
     data = [headers] + values
