@@ -42,6 +42,8 @@ Alternatively, set the `GOOGLE_SHEETS_CREDENTIALS_PATH` environment variable:
 export GOOGLE_SHEETS_CREDENTIALS_PATH=/path/to/your/credentials/folder
 ```
 
+To route Google API traffic through a proxy, set `GOOGLE_PROXY` (e.g. `http://user:pass@host:port`).
+
 ### 2. Obtain Credentials
 
 1. Go to [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
